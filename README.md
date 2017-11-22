@@ -4,8 +4,18 @@ Repozitorij z gradivi pri predmetu APPR v študijskem letu 2017/18
 
 ## Tematika
 
-Izbrali si boste temo, s katero se bo vaš projekt ukvarjal. Tukaj boste
-napisali, kje ste dobili podatke, ter kakšen je vaš cilj.
+V projektu bom analiziral statistiko podajalcev (quarterback) v ligi NFL, ki so bili na naboru izbrani v zadnjih 30 letih. Analiziral bo opravljena na podlagi naslednjih podatkov:  uspešnost podaj, število pridobljenih jardov s podajami, število podaj za zadetek (touchdown), število izborov v prvo ekipo lige in število izborov na Pro Bowl.
+
+Zanima me, kakšna je povezava med izborom na draftu in uspešnostjo kariere.
+Analizirati želim tudi, katere ekipe so imele največ izborov v prvem krogu in pa, katere ekipe so izbrale največ podajalcev, ki so jim uspele vrhunske kariere.
+
+Podatke bom črpal iz naslednji spletnih strani:
+
+* http://www.nfl.com/draft/history/fulldraft?type=position
+* https://www.pro-football-reference.com/ (CSV)
+
+
+
 
 ## Program
 
