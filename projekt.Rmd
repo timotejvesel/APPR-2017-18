@@ -21,7 +21,11 @@ source("lib/libraries.r", encoding = "UTF-8")
 
 # Izbira teme
 
-Za vzorec bomo prikazali nekaj podatkov o slovenskih občinah.
+
+Pri projektu bom analiziral podajalce, izbrane na draftu lige NFL. Zanima me povezava med izborom na draftu in uspešnostjo kariere.
+
+Analizirati želim tudi, katere ekipe so imele največ izborov v prvem krogu in pa, katere ekipe so izbrale največ podajalcev, ki so jim uspele vrhunske kariere.
+Zanima pa me tudi v katerih regijah in zveznih državah so univerze, ki proizvedejo najboljše podajalce ameriškega nogometa.
 
 ***
 
