@@ -8,6 +8,6 @@ leta <- sapply(tabele, . %>% .[1,1]) %>% strapplyc("([0-9]+)") %>% unlist() %>% 
 draft_ekipe <- lapply(1:length(tabele), . %>% { mutate(tabele[[.]][-c(1, 2), ], leto = leta[.]) }) %>% bind_rows()
 
 uvozi.statistiko <- function()
-  statistika <- read_csv("podatki/pro-football-reference2.csv", na = ":", locale = locale(encoding="UTF-8"))
+  statistika <- read_csv2("podatki/pro-football-reference2.csv", na = ":", locale = locale(encoding="UTF-8"))
 
 
