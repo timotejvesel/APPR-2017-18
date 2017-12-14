@@ -32,27 +32,33 @@ Zanima pa me tudi v katerih regijah in zveznih državah so univerze, ki proizved
 # Obdelava, uvoz in čiščenje podatkov
 
 ```{r uvoz, echo=FALSE, message=FALSE}
-source("uvoz/uvoz.r", encoding = "UTF-8")
+source("uvoz/uvoz-html.r", encoding = "UTF-8")
 ```
 
-Uvozili smo podatke o občinah v obliki CSV s statističnega urada ter v obliki HTML
-z Wikipedije. Podatke imamo v dveh razpredelnicah v obliki *tidy data*.
+Uvozil sem podatke o podajalcih v obliki CSV iz spletne strani pro-footbal-reference.com ter v obliki HTML
+z NFL. Podatke imam v dveh razpredelnicah v obliki *tidy data*, ki sem ju zdruzil v eno razpredelnico.
 
-1. `druzine` - podatki o družinah za vsako občino
-  - `obcina` - spremenljivka: ime občine (neurejen faktor),
-  - `velikost.druzine` - spremenljivka: število otrok v družini (število: 1, 2, 3 ali 4, kjer zadnja vrednost pomeni 4 ali več),
-  - `stevilo.druzin` - meritev: število družin z ustreznim številom otrok v ustrezni občini (število).
+1. `draft.ekipe` - podatki o collegu in klubu, ki je izbral igralca
+  - `Ime` - spremenljivka: ime in priimek igralca (besedilo),
+  - `College` - spremenljivka: college za katerega je podajalec igral (besedilo),
+  - `Ekipa` - meritev: ekipa, ki je podajalca izbrala na draftu (število).
 
-2. `obcine` - podatki o občinah
-  - `obcina` - spremenljivka: ime občine (neurejen faktor),
-  - `povrsina` - meritev: površina občine v km$^2$ (število),
-  - `prebivalci` - meritev: prebivalstvo občine (število),
-  - `gostota` - meritev: število prebivalcev na km$^2$ (število),
-  - `naselja` - meritev: število naselij v občini (število),
-  - `ustanovitev` - meritev: leto ustanovitve občine (število),
-  - `pokrajina` - meritev: pokrajina, ki ji občina pripada (neurejen faktor),
-  - `regija` - meritev: regija, ki ji občina pripada (neurejen faktor),
-  - `odcepitev` - meritev: podatki o občinah, od katerih se je občina odcepila (besedilo).
+2. `statistika` - podatki o statistiki podajalcev
+  - `Leto` - spremenljivka: leto v katerem je bil podajalec izbran (celo število),
+  - `Krog` - spremenljivka : krog v katerem je bil izbran (celo število),
+  - `Izbor` - meritev: kateri izbor je bil (celo število),
+  - `Ime` - spremenljivka: ime in priimek podajalca (besedilo),
+  - `All-Pro` - meritev: število izoborov v All-Proo first team (celo število),
+  - `Pro bowl` - meritev: pštevilo izborov na pro bowl (celo število),
+  - `St.tekem` - meritev: števil odigranih tekem (celo število),
+  - `Uspesne.p` - meritev: število uspešnih podaj (celo število),
+  - `Podaje` - meritev: število vseh podaj, ki jih je vrgel podajalec (celo število),
+  - `Jardi.podaje` - spremenljivka: število jardov, ki jih je ekipa pridobila z njegovimi podajam (celo število),
+  - `Podaje.TD` - spremenljivka: število podaj, po katerih je ekipa dosegla touchdown (celo število),
+  - `Prestrezene podaje` - spremenljivka: podaje, ki jih je obramba prestregla podajalcu (celo število),
+  - `St.tekov` - spremenljivka: kolikokrat je podajalec tekel (celo število),
+  - `Jardi.tek` - spremenljivka: število jardov, ki jih je podajalec pridobil s tekom (celo število),
+  - `TD.tek` - spremenljivka število touchdownov, ki jih je podajalec dosegel po tleh (celo število),
 
 **Opomba**: da bi razpredelnica `obcine` res bila v obliki *tidy data*, bi morali odstraniti stolpec `gostota` (saj je izpeljan iz stolpcev `povrsina` in `prebivalci`), podatke o pokrajinah pa bi morali premakniti v drugo razpredelnico, saj nekatere občine pripadajo dvema pokrajinama. Podobno bi morali narediti tudi s stolpcem `odcepitev`.
 
