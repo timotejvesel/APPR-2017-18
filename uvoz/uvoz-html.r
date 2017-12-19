@@ -32,10 +32,9 @@ uvozi.statistiko <- function() {
   write_csv(statistika, "podatki/statistika.csv")
   
 }
-  
 
 # 
 skupna <- merge(statistika, draft.ekipe, by = "Ime")
-skupna <- skupna[, c(1:2, 16:17, 3:15)]
+skupna <- skupna[, c(1:2, 17:18, 3:16)]
 
 
