@@ -7,7 +7,6 @@ output:
     includes:
       in_header: lib/styles.sty
     latex_engine: xelatex
-runtime: shiny
 ---
 
 ```{r setup, echo=FALSE, results='hide', message=FALSE}
@@ -31,83 +30,39 @@ Zanima pa me tudi v katerih regijah in zveznih državah so univerze, ki proizved
 
 # Obdelava, uvoz in čiščenje podatkov
 
-```{r uvoz, echo=FALSE, message=FALSE}
+```{r uvoz, echo=FALSE, message=FALSE, warning=FALSE}
 source("uvoz/uvoz-html.r", encoding = "UTF-8")
 ```
 
-Uvozil sem podatke o podajalcih v obliki CSV iz spletne strani pro-footbal-reference.com ter v obliki HTML
-z NFL. Podatke imam v dveh razpredelnicah v obliki *tidy data*, ki sem ju zdruzil v eno razpredelnico.
+Uvozil sem podatke o podajalcih v v ligi NFL. Nekaj, predvsem statističnih, podatkov sem dobil v obliki CSV iz spletne strani pro-footbal-reference.com.te podatke sem dal v razpredelnico `statistika`. Podatke o tem kateri college je obiskoval igralec in katerih klub ga je izbral pa s spletne strani lige NFL. Podatke iz razpredelnice `statistika` sem nato preuredil v obliko *tidy data*, tako da sem jih razporedil v več razpredelnic, ki so opisane spodaj.
 
-1. `draft.ekipe` - podatki o collegu in klubu, ki je izbral igralca
+1. V razpredelnici **draft.ekipe** so podatki o collegu za katerega je igral podajalec, o klubu, ki je igralca izbral in letu, krogu in izboru v katerem so ga izbrali.
   - `Ime` - spremenljivka: ime in priimek igralca (besedilo),
+  - `Leto` - spremenljivka: leto v katerem je bil podajalec izbran na naboru (celo število),
+  - `Krog` - spremenljivka: krog v katerem je bil podajalec izbrana na naboru(celo število),
+  - `Izbor` - spremenljivka: kateri po vrsti je bil izbran (celo število),
   - `College` - spremenljivka: college za katerega je podajalec igral (besedilo),
-  - `Ekipa` - meritev: ekipa, ki je podajalca izbrala na draftu (število).
+  - `Ekipa` - spremenljivka: ekipa, ki je podajalca izbrala na draftu (besedilo).
+  
+  
 
-2. `statistika` - podatki o statistiki podajalcev
-  - `Leto` - spremenljivka: leto v katerem je bil podajalec izbran (celo število),
-  - `Krog` - spremenljivka : krog v katerem je bil izbran (celo število),
-  - `Izbor` - meritev: kateri izbor je bil (celo število),
+2. V razpredelnici **podaje.td** so prikazni podatki o uspešnih podajah, številu vseh podaj, podajah, ki so vodile do toucdowna, prestreženih podajah in številu toucdownov, ki jih je podajalec dosegel s tekom. 
   - `Ime` - spremenljivka: ime in priimek podajalca (besedilo),
-  - `All-Pro` - meritev: število izoborov v All-Proo first team (celo število),
-  - `Pro bowl` - meritev: pštevilo izborov na pro bowl (celo število),
-  - `St.tekem` - meritev: števil odigranih tekem (celo število),
-  - `Uspesne.p` - meritev: število uspešnih podaj (celo število),
-  - `Podaje` - meritev: število vseh podaj, ki jih je vrgel podajalec (celo število),
-  - `Jardi.podaje` - spremenljivka: število jardov, ki jih je ekipa pridobila z njegovimi podajam (celo število),
-  - `Podaje.TD` - spremenljivka: število podaj, po katerih je ekipa dosegla touchdown (celo število),
-  - `Prestrezene podaje` - spremenljivka: podaje, ki jih je obramba prestregla podajalcu (celo število),
-  - `St.tekov` - spremenljivka: kolikokrat je podajalec tekel (celo število),
-  - `Jardi.tek` - spremenljivka: število jardov, ki jih je podajalec pridobil s tekom (celo število),
-  - `TD.tek` - spremenljivka število touchdownov, ki jih je podajalec dosegel po tleh (celo število),
+  - `tip` - spremenljivka: navede vrsto podaje oziroma teka (faktor),
+  - `stevilo` - meritev: število prej navedenega tipa (celo število).
 
-**Opomba**: da bi razpredelnica `obcine` res bila v obliki *tidy data*, bi morali odstraniti stolpec `gostota` (saj je izpeljan iz stolpcev `povrsina` in `prebivalci`), podatke o pokrajinah pa bi morali premakniti v drugo razpredelnico, saj nekatere občine pripadajo dvema pokrajinama. Podobno bi morali narediti tudi s stolpcem `odcepitev`.
+3. Razpredelnica **jardi** prikazuje število jardov, ki jih je podajalec pridobil s podajami in s tekom in pa število podaj in tekov.
+  - `Ime` - spremenljivka: ime in priimek podajalca (besedilo),
+  - `tip` - spremenljivka: pove ali gre za podaje ali tek (faktor),
+  - `stevilo` - meritev: število prej navedenega tipa (celo število).
 
-Spodnji graf prikazuje porazdelitev števila naselij v občinah.
-
-```{r histogram, echo=FALSE, message=FALSE, fig.align='center', fig.cap='Histogram števila naselij v občinah'}
-ggplot(obcine, aes(x = naselja)) + geom_histogram() +
-  ggtitle("Pogostost števila naselij") + xlab("Število naselij") + ylab("Število občin")
-```
+4. Razpredelnica **tekme** prikazuje koliko tekem je podajalec odigrač v ligi NFL.
+  - `Ime` - spremenljivka: ime in priimek podajalca (besedilo),
+  - `St.tekem` - meritev: stevilo odigranih tekem (celo število).
+  
+5. V razpredelnica **pro** pa so prikazani podatki o številu izborov na Pro Bowl in v All-Pro ekipo.
+  - `Ime` - spremenljivka: ime in priimek podajalca (besedilo),
+  - `tip` - spremenljivka: pove ali gre za izbore na Pro Bowl ali v All-Pro (faktor),
+  - `stevilo` - meritev: ime in priimek podajalca (besedilo).
 
 ***
-
-# Analiza in vizualizacija podatkov
-
-```{r vizualizacija, echo=FALSE, message=FALSE, warning=FALSE}
-source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
-```
-
-Spodnji zemljevid prikazuje povprečno velikost družine za vsako občino.
-
-```{r zemljevid, echo=FALSE, fig.align='center', fig.cap='Zemljevid povprečnega števila otrok v družini'}
-ggplot() + geom_polygon(data = left_join(zemljevid, povprecja, by = c("OB_UIME" = "obcina")),
-                        aes(x = long, y = lat, group = group, fill = povprecje)) +
-  ggtitle("Povprečno število otrok v družini") + xlab("") + ylab("") +
-  guides(fill = guide_colorbar(title = "Povprečje"))
-```
-
-***
-
-# Napredna analiza podatkov
-
-```{r analiza, echo=FALSE, message=FALSE}
-source("analiza/analiza.r", encoding = "UTF-8")
-```
-
-Spodnji graf prikazuje povezavo med številom naselij in površino občine.
-
-```{r graf, echo=FALSE, fig.align='center', fig.cap='Povezava med številom naselij in površino občine'}
-ggplot(inner_join(obcine, data.frame(obcina = names(skupine),
-                                     skupina = factor(skupine)), by = "obcina")
-, aes(x = povrsina, y = naselja, color = skupina, size = prebivalci/1000)) + geom_point() +
-  ggtitle("Število naselij glede na površino občine") +
-  xlab(expression("Površina (km"^2 * ")")) + ylab("Št. naselij") +
-  guides(color = guide_legend(title = "Skupina"),
-         size = guide_legend(title = "Prebivalci (* 1000)"))
-```
-
-***
-
-```{r shiny, echo = FALSE}
-shinyAppDir("shiny", options=list(width="100%", height=600))
-```
