@@ -3,7 +3,7 @@ stran <- html_session(link) %>% read_html()
 
 # HTML
 tabele_html <- stran %>% html_nodes(xpath="//table[@class='data-table1']")
-tabele <- lapply(tabele_html[2:40], html_table)rm
+tabele <- lapply(tabele_html[2:40], html_table)
 leta <- sapply(tabele, . %>% .[1,1]) %>% strapplyc("([0-9]+)") %>% unlist() %>% parse_integer()
 draft.ekipe <- lapply(1:length(tabele), . %>% { mutate(tabele[[.]][-c(1, 2), ], Leto = leta[.]) }) %>% bind_rows()
 
@@ -28,6 +28,7 @@ uvozi.statistiko <- function() {
   return(statistika)
   
 }
+
 statistika <- uvozi.statistiko()
 
 podaje.td <- statistika %>% select(Ime, Uspesne.p, Podaje, Podaje.TD, Prestrezene.p, TD.tek) %>%

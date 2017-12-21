@@ -7,9 +7,10 @@ output:
     includes:
       in_header: lib/styles.sty
     latex_engine: xelatex
+
 ---
 
-```{r setup, echo=FALSE, results='hide', message=FALSE}
+```{r setup, echo=FALSE, results='hide',message=FALSE, warning = FALSE}
 # Če želimo nastaviti pisave v PDF-ju, odkomentiramo
 # in sledimo navodilom v programu.
 #source("fontconfig.r", encoding = "UTF-8")
