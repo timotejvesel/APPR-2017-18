@@ -16,7 +16,7 @@ draft.ekipe <- draft.ekipe[,c(3,6,1:2,4:5)]
 
 # CSV
 uvozi.statistiko <- function() {
-  statistika <- read_csv("podatki/pro-football-reference.csv",
+  statistika <- read_csv("podatki/pro-football-reference1.csv",
                          na = ":", locale = locale(encoding="UTF-8"))[,c(2:5, 11:12,15, 18:25)]
 
   colnames(statistika) <- c("Leto", "Krog", "Izbor", "Ime", "All.Pro", "Pro.Bowl",
@@ -44,4 +44,8 @@ pro <- tekme <- statistika %>% select(Ime, All.Pro, Pro.Bowl) %>%
   melt(variable.name = "tip", value.name = "stevilo", na.rm = TRUE) 
 
 # draft <- select(statistika, Ime, Leto, Krog, Izbor)
+
+drzave <-  read_csv("podatki/team-states.csv",
+                    locale = locale(encoding="UTF-8"))
+colnames(drzave) <- c("Drzava", "Stevilo")
 

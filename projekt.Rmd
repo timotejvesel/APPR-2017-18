@@ -45,6 +45,10 @@ Uvozil sem podatke o podajalcih v v ligi NFL. Nekaj, predvsem statističnih, pod
   - `College` - spremenljivka: college za katerega je podajalec igral (besedilo),
   - `Ekipa` - spremenljivka: ekipa, ki je podajalca izbrala na draftu (besedilo).
   
+```{r draft.ekipe, echo=FALSE, message=FALSE}
+kable(head(draft.ekipe))
+```
+  
   
 
 2. V razpredelnici **podaje.td** so prikazni podatki o uspešnih podajah, številu vseh podaj, podajah, ki so vodile do toucdowna, prestreženih podajah in številu toucdownov, ki jih je podajalec dosegel s tekom. 
@@ -57,7 +61,7 @@ Uvozil sem podatke o podajalcih v v ligi NFL. Nekaj, predvsem statističnih, pod
   - `tip` - spremenljivka: pove ali gre za podaje ali tek (faktor),
   - `stevilo` - meritev: število prej navedenega tipa (celo število).
 
-4. Razpredelnica **tekme** prikazuje koliko tekem je podajalec odigrač v ligi NFL.
+4. Razpredelnica **tekme** prikazuje koliko tekem je podajalec odigral v ligi NFL.
   - `Ime` - spremenljivka: ime in priimek podajalca (besedilo),
   - `St.tekem` - meritev: stevilo odigranih tekem (celo število).
   
