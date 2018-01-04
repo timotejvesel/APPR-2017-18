@@ -118,13 +118,16 @@ zemljevid <- uvozi.zemljevid("http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2
 zemljevid$NAME <- parse_character(zemljevid$NAME)
 
 
-graf.drzave <- ggplot() +
-  geom_polygon(data = left_join(zemljevid, drzave %>% filter(Stevilo > 0), 
+zemljevid.drzave <- ggplot() +
+  geom_polygon(data = left_join(zemljevid, drzave %>% filter(Stevilo > 0) , 
                                 by = c("NAME" = "Drzava")), 
-                                aes(x = long, y = lat, group = group, fill = Stevilo), 
+                                aes(x = long, y = lat, group = group, fill = - Stevilo), 
                                 color = "black") +
   ggtitle("Število NFL ekip v zveznih državah ZDA") + xlab("") + ylab("") +
-  guides(fill = guide_colorbar(title = "Število ekip")) #+
+  guides(fill = guide_colorbar(title = "Število ekip")) 
+
+
+#+
   #geom_text(data = inner_join(zemljevid, drzave %>% filter(Stevilo > 0), by = c("NAME" = "Drzava")) %>% group_by(NAME) %>%
    #        summarise(avg_long = mean(long), avg_lat = mean(lat)),
     #       aes(x = avg_long, y = avg_lat, label = NAME), color = "red")

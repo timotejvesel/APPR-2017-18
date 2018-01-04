@@ -45,7 +45,7 @@ pro <- tekme <- statistika %>% select(Ime, All.Pro, Pro.Bowl) %>%
 
 # draft <- select(statistika, Ime, Leto, Krog, Izbor)
 
-drzave <-  read_csv("podatki/team-states.csv",
+drzave <-  read_csv("podatki/team-states2.csv",
                     locale = locale(encoding="UTF-8"))
-colnames(drzave) <- c("Drzava", "Stevilo")
+colnames(drzave) <- c("Drzava", "Stevilo", "Regija")
 
