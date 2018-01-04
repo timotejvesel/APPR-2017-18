@@ -121,10 +121,11 @@ zemljevid$NAME <- parse_character(zemljevid$NAME)
 zemljevid.drzave <- ggplot() +
   geom_polygon(data = left_join(zemljevid, drzave %>% filter(Stevilo > 0) , 
                                 by = c("NAME" = "Drzava")), 
-                                aes(x = long, y = lat, group = group, fill = - Stevilo), 
+                                aes(x = long, y = lat, group = group, fill = Stevilo), 
                                 color = "black") +
   ggtitle("Število NFL ekip v zveznih državah ZDA") + xlab("") + ylab("") +
-  guides(fill = guide_colorbar(title = "Število ekip")) 
+  guides(fill = guide_colorbar(title = "Število ekip")) +
+  scale_fill_continuous(low = "#56B1F7", high = "#132B43")
 
 
 #+
