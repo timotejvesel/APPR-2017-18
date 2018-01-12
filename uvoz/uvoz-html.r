@@ -37,10 +37,10 @@ podaje.td <- statistika %>% select(Ime, Uspesne.p, Podaje, Podaje.TD, Prestrezen
 jardi <- statistika %>% select(Ime, Podaje, Jardi.podaje, St.tekov, Jardi.tek) %>% 
   melt(variable.name = "tip", value.name = "stevilo", na.rm = TRUE)
 
-tekme <- select(statistika, Ime, St.tekem)
+tekme <- statistika[,c("Ime","St.tekem")]
 tekme[is.na(tekme)] <- 0
 
-pro <- tekme <- statistika %>% select(Ime, All.Pro, Pro.Bowl) %>% 
+pro <- statistika %>% select(Ime, All.Pro, Pro.Bowl) %>% 
   melt(variable.name = "tip", value.name = "stevilo", na.rm = TRUE) 
 
 # draft <- select(statistika, Ime, Leto, Krog, Izbor)

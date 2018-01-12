@@ -12,9 +12,8 @@ b <- aggregate(a$`podaje/tekma`, by=list(a$Leto), FUN=sum)
 colnames(b) <- c("leto","podaje/tekma")
 
 g1 <- ggplot(b, aes(x=b$leto, y = b$`podaje/tekma`)) + geom_col(fill = "#56B4E9") + 
-  labs(title="Število podaj na tekmo", x = "Leto", y = "podaje / tekma") + 
-  scale_x_continuous(breaks = pretty(b$leto, n = 10))
-
+ labs(title="Število podaj na tekmo", x = "Leto", y = "podaje / tekma") + 
+ scale_x_continuous(breaks = pretty(b$leto, n = 10))
 
 # Vidimo lahko, da so v povprečju podajalci, ki so bili na naboru izbrani v drugi polovici (po letu 1997) 
 # vrgli več podaj na tekmo, kot pa podajalci, ki so bili izbrani pred letom 1997. Torej lahko sklepamo,
@@ -39,11 +38,11 @@ colnames(p) <- c("krog","povprecje")
 
 g3 <- ggplot(p, aes(x = p$krog, y = p$povprecje)) + geom_col(fill = "#56B4E9", color = "red") + 
   scale_x_continuous(name = "Krog", breaks = seq(0,12,1)) + 
-  scale_y_continuous(name = "Povprecje uspesnih podaj") + 
-  labs(title = "Uspesnost podaj glede na krog izbora") 
+  scale_y_continuous(name = "Povprecje uspesnih podaj", breaks = seq(0,60,5)) + 
+  labs(title = "Uspesnost podaj glede na krog izbora (%)") 
 
 # Opazimo, da res obstaja povezava med izborom na naboru in odstotkom uspešnih podaj.
-# Iz grafa g3 je razvidno, da so podajalci, ki so bili izbrani v prvih treh krogih v povpreju res precej uspešnejši
+# Iz grafa g3 je razvidno, da so podajalci, ki so bili izbrani v prvih treh krogih v povprečju res precej uspešnejši
 # kot podajalci, ki so bili izbrani v zadnjih treh krogih.
 # Pri tem je pomembno poudariti, da so pri izborih v drugi polovici zajeti samo boljši podajalci, ki so bili izbrani
 # v teh krogih (zajeti pa so vsi igralci, ki so bili izbrani v prvem krogu), saj slabši podajalci sploh niso dobili
@@ -61,16 +60,16 @@ m <- na.omit(m)
 
 g4 <- ggplot(m, aes(x = m$Izbor, y = m$td.tekma)) + geom_point(aes(colour = factor(m$Krog))) +
   scale_x_continuous(name = "Izbor", breaks = seq(0,300,50)) + 
-  scale_y_continuous(name = "jardi/podaja", breaks = seq(0,2,0.5)) + 
+  scale_y_continuous(name = "jardi/tekm", breaks = seq(0,2,0.5)) + 
   labs(title = "Število Touchdownov na tekmo", colour = "Krog") 
 
 n <- aggregate(m$td.tekma, by=list(m$Krog), FUN=mean, na.rm = TRUE)
 colnames(n) <- c("krog","povprecje")
 
 g5 <- ggplot(n, aes(x = n$krog, y = n$povprecje)) + geom_col(fill = "#56B4E9", color = "red") + 
-  scale_x_continuous(name = "Krog", breaks = seq(0,3,1)) + 
-  scale_y_continuous(name = "Povprecje td/podaja") + 
-  labs(title = "Povprečje touchdownov/podaja glede na krog izbora") 
+  scale_x_continuous(name = "Krog", breaks = seq(0,12,1)) + 
+  scale_y_continuous(name = "Povprecje td/tekma") + 
+  labs(title = "Povprečje touchdownov/tekma glede na krog izbora") 
 
 # Spet je razvidno, da so podajalci, ki so bili izbrani v prvem krogu v povprečju boljši od ostalih igralcev,
 # vendar pa je vsake toliko časa kakšen podajalec izbran precej nižje, čeprav se kasneje izkaže,
