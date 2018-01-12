@@ -25,7 +25,7 @@ source("lib/libraries.r", encoding = "UTF-8")
 Pri projektu bom analiziral podajalce, izbrane na draftu lige NFL. Zanima me povezava med izborom na draftu in uspešnostjo kariere.
 
 Analizirati želim, katere ekipe so imele največ izborov v prvem krogu in pa, katere ekipe so izbrale največ podajalcev, ki so jim uspele vrhunske kariere.
-Zanima pa me tudi v katerih regijah in zveznih državah so univerze, ki proizvedejo najboljše podajalce ameriškega nogometa.
+Zanima pa me tudi kakšna je razporeditev NFL ekip med zveznimi državami ZDA.
 
 ***
 
@@ -71,3 +71,35 @@ kable(head(draft.ekipe))
   - `stevilo` - meritev: ime in priimek podajalca (besedilo).
 
 ***
+
+
+# Analiza in vizualizacija podatkov
+
+
+```{r vizualizacija, echo=FALSE, message=FALSE, warning=FALSE}
+source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
+```
+
+V tretji fazi sem najprej sestavil nekaj dodatnih tabel s katerimi sem si pomagal pri risanju grafov.
+
+### Igra po zraku
+Za začetek me je zanimalo ali podajalci, ki so bili na naboru izbrani po letu 1997 v povprečju na tekmo žogo podajo večkrat kot podajalci, ki so bili izbrani med letoma 1978 in 1997.
+
+Narisal sem graf iz katerega je razvidno, da med posameznimi leti sicer obstajajo velika nihanja vendar pa opazimo, da so v povprečju podajalci, ki so bili na naboru izbrani v drugi polovici (po letu 1997) res vrgli več podaj na tekmo, kot pa podajalci, ki so bili izbrani pred letom 1997. Torej lahko sklepamo,da se v ligi NFL v zadnjih dveh desetletji igra nekoliko več po zraku kot pa se je pred tem.
+
+```{r prva, echo=FALSE, message=FALSE}
+g1
+```
+
+### Povezava med izborom na naboru in uspešnostjo kariere
+Najbolj pa me je zanimalo, če obstaja povezava med izborom na naboru in pa dejansko uspešnostjo kariere podajalca v ligi NFL, predvsem uspešnost podaj in pa povprečno število podaj za touchdowne na tekmi.
+
+Najprej sem analiziral povprečno uspešnost podaj (v odstotkih) glede na krog izbora. Kot opazimo iz spodnjega grafa,  so podajalci, ki so bili izbrani v prvih treh krogih v povprečju res precej uspešnejši kot podajalci, ki so bili izbrani v zadnjih treh krogih. 
+
+```{r tretja, echo=FALSE, message=FALSE}
+g3
+```
+
+Nato pa sem analiziral še eno za podajalce izjemno pomembno kategorijo, povprečno število podaj za touchdown na tekmo.
+
+
