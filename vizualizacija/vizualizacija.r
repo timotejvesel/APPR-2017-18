@@ -36,7 +36,7 @@ g2 <- ggplot(k, aes(x = k$Izbor, y = k$uspesnost.p)) + geom_point(aes(colour = f
 p <- aggregate(k$uspesnost.p, by=list(k$Krog), FUN=mean, na.rm = TRUE)
 colnames(p) <- c("krog","povprecje")
 
-g3 <- ggplot(p, aes(x = p$krog, y = p$povprecje)) + geom_col(fill = "#56B4E9", color = "red") + 
+g3 <- ggplot(p, aes(x = p$krog, y = p$povprecje)) + geom_col(fill = "thistle2", color = "black") + 
   scale_x_continuous(name = "Krog", breaks = seq(0,12,1)) + 
   scale_y_continuous(name = "Povprecje uspesnih podaj", breaks = seq(0,60,5)) + 
   labs(title = "Uspesnost podaj glede na krog izbora (%)") 
@@ -60,13 +60,13 @@ m <- na.omit(m)
 
 g4 <- ggplot(m, aes(x = m$Izbor, y = m$td.tekma)) + geom_point(aes(colour = factor(m$Krog))) +
   scale_x_continuous(name = "Izbor", breaks = seq(0,300,50)) + 
-  scale_y_continuous(name = "jardi/tekm", breaks = seq(0,2,0.5)) + 
-  labs(title = "Število Touchdownov na tekmo", colour = "Krog") 
+  scale_y_continuous(name = "touchdown/tekma", breaks = seq(0,2,0.25)) + 
+  labs(title = "Povprečno število touchdownov na tekmo", colour = "Krog") 
 
 n <- aggregate(m$td.tekma, by=list(m$Krog), FUN=mean, na.rm = TRUE)
 colnames(n) <- c("krog","povprecje")
 
-g5 <- ggplot(n, aes(x = n$krog, y = n$povprecje)) + geom_col(fill = "#56B4E9", color = "red") + 
+g5 <- ggplot(n, aes(x = n$krog, y = n$povprecje)) + geom_col(fill = "bisque1", color = "black") + 
   scale_x_continuous(name = "Krog", breaks = seq(0,12,1)) + 
   scale_y_continuous(name = "Povprecje td/tekma") + 
   labs(title = "Povprečje touchdownov/tekma glede na krog izbora") 

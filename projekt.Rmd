@@ -87,7 +87,7 @@ Za začetek me je zanimalo ali podajalci, ki so bili na naboru izbrani po letu 1
 
 Narisal sem graf iz katerega je razvidno, da med posameznimi leti sicer obstajajo velika nihanja vendar pa opazimo, da so v povprečju podajalci, ki so bili na naboru izbrani v drugi polovici (po letu 1997) res vrgli več podaj na tekmo, kot pa podajalci, ki so bili izbrani pred letom 1997. Torej lahko sklepamo,da se v ligi NFL v zadnjih dveh desetletji igra nekoliko več po zraku kot pa se je pred tem.
 
-```{r prva, echo=FALSE, message=FALSE}
+```{r prvi, echo=FALSE, message=FALSE, fig.align='center'}
 g1
 ```
 
@@ -96,10 +96,20 @@ Najbolj pa me je zanimalo, če obstaja povezava med izborom na naboru in pa deja
 
 Najprej sem analiziral povprečno uspešnost podaj (v odstotkih) glede na krog izbora. Kot opazimo iz spodnjega grafa,  so podajalci, ki so bili izbrani v prvih treh krogih v povprečju res precej uspešnejši kot podajalci, ki so bili izbrani v zadnjih treh krogih. 
 
-```{r tretja, echo=FALSE, message=FALSE}
+```{r drugi, echo=FALSE, message=FALSE, fig.align='center'}
 g3
 ```
 
 Nato pa sem analiziral še eno za podajalce izjemno pomembno kategorijo, povprečno število podaj za touchdown na tekmo.
+Spet je razvidno, da  so podajalci, ki so bili izbrani v prvem krogu v povprečju boljši od ostalih igralcev, pri čemer so tukaj razlike med krogi naborov še precej večje.
 
+```{r tretji, echo=FALSE, message=FALSE, fig.align='center'}
+g5
+```
+
+Iz spodnjega grafa je še lepše razvidno kako popvprečno število podaj za touchdown na tekmo pada glede na krog v katerem je bil podajalec izbran. Seveda so v vseh krogih izbrani tudi podajalci, ki imajo precej neuspešne kariere. Vendar pa lahko opazimo tudi, da je vsake toliko časa kakšen podajalec izbran precej nižje kot pa v prvem krogu, ampak mu je vseeno usepla boljša kariera, kot večini ostalih podajalcev. Najboljši primer tega je Tom Brady, ki je bil izbran šele v šestem krogu, ima pa četrto najboljše povprečje števila touchdownov na tekmo in velja za enega najboljših podajalcev vseh časov v ligi NFL.
+
+```{r četrti, echo=FALSE, message=FALSE, fig.align='center'}
+g4
+```
 
