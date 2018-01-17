@@ -113,3 +113,9 @@ Iz spodnjega grafa je še lepše razvidno kako popvprečno število podaj za tou
 g4
 ```
 
+### Ekipe v zveznih državah ZDA
+Na zemljevidu je prikazana razporeditev NFl ekip po zveznih državah ZDA. Združene države amerike imajo 50 zveznih držav, NFL ekip pa je 32. Vidimo pa lahko, da ima NFL ekipo samo 22 zvezni držav. Bolj poseljene zvezne države (Kalifornija, Florida, Texas, Pensilvanija) imajo več NFL ekip, medtem ko so   države, ki imajo manj prebivalcev brez ekipe.
+
+```{r zemljevid, echo=FALSE, message=FALSE, fig.align='center', fig.width=11, fig.height=7}
+zemljevid.drzave
+```
