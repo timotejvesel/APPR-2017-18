@@ -20,7 +20,7 @@ source("lib/libraries.r", encoding = "UTF-8")
 ```
 
 # Izbira teme
-
+![](http://oregonsportsnews.com/wp-content/uploads/2017/08/NFL.jpg)
 
 Pri projektu bom analiziral podajalce, izbrane na draftu lige NFL. Zanima me povezava med izborom na draftu in uspešnostjo kariere.
 

@@ -30,7 +30,7 @@ k <- na.omit(k)
 
 g2 <- ggplot(k, aes(x = k$Izbor, y = k$uspesnost.p)) + geom_point(aes(colour = factor(k$Krog))) +
   scale_x_continuous(name = "Izbor", breaks = seq(0,300,50)) + 
-  scale_y_continuous(name = "Uspesnost podaj (%)", breaks = seq(0,100,5), limits = c(43, 68)) + 
+  scale_y_continuous(name = "Uspešnost podaj (%)", breaks = seq(0,100,5), limits = c(43, 68)) + 
   labs(title = "Korelacija med izborom in uspešnostjo podaj", colour = "Krog") 
 
 p <- aggregate(k$uspesnost.p, by=list(k$Krog), FUN=mean, na.rm = TRUE)
@@ -38,8 +38,8 @@ colnames(p) <- c("krog","povprecje")
 
 g3 <- ggplot(p, aes(x = p$krog, y = p$povprecje)) + geom_col(fill = "thistle2", color = "black") + 
   scale_x_continuous(name = "Krog", breaks = seq(0,12,1)) + 
-  scale_y_continuous(name = "Povprecje uspesnih podaj", breaks = seq(0,60,5)) + 
-  labs(title = "Uspesnost podaj glede na krog izbora (%)") 
+  scale_y_continuous(name = "Povprečje uspešnih podaj", breaks = seq(0,60,5)) + 
+  labs(title = "Uspešnost podaj glede na krog izbora (%)") 
 
 # Opazimo, da res obstaja povezava med izborom na naboru in odstotkom uspešnih podaj.
 # Iz grafa g3 je razvidno, da so podajalci, ki so bili izbrani v prvih treh krogih v povprečju res precej uspešnejši
@@ -68,7 +68,7 @@ colnames(n) <- c("krog","povprecje")
 
 g5 <- ggplot(n, aes(x = n$krog, y = n$povprecje)) + geom_col(fill = "bisque1", color = "black") + 
   scale_x_continuous(name = "Krog", breaks = seq(0,12,1)) + 
-  scale_y_continuous(name = "Povprecje td/tekma") + 
+  scale_y_continuous(name = "Povprečje td/tekma") + 
   labs(title = "Povprečje touchdownov/tekma glede na krog izbora") 
 
 # Spet je razvidno, da so podajalci, ki so bili izbrani v prvem krogu v povprečju boljši od ostalih igralcev,
