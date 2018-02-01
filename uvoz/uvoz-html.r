@@ -49,3 +49,9 @@ drzave <-  read_csv("podatki/team-states2.csv",
                     locale = locale(encoding="UTF-8"))
 colnames(drzave) <- c("Drzava", "Stevilo", "Regija")
 
+### 
+
+super.bowl <- read_csv("podatki/super-bowl.csv",
+                       locale = locale(encoding="UTF-8"))
+super.bowl<- super.bowl[,c(2:5)]
+colnames(super.bowl) <- c("ekipa", "tekme", "zmage", "porazi")

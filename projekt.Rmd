@@ -1,13 +1,13 @@
 ---
-title: "Poročilo pri predmetu Analiza podatkov s programom R"
+title: "Analiza podajalcev v ligi NFL"
 author: "Timotej Vesel"
 output:
-  html_document: default
+  word_document: default
   pdf_document:
     includes:
       in_header: lib/styles.sty
     latex_engine: xelatex
-
+  html_document: default
 ---
 
 ```{r setup, echo=FALSE, results='hide',message=FALSE, warning = FALSE}
@@ -20,12 +20,12 @@ source("lib/libraries.r", encoding = "UTF-8")
 ```
 
 # Izbira teme
-![](http://oregonsportsnews.com/wp-content/uploads/2017/08/NFL.jpg)
-
 Pri projektu bom analiziral podajalce, izbrane na draftu lige NFL. Zanima me povezava med izborom na draftu in uspešnostjo kariere.
 
 Analizirati želim, katere ekipe so imele največ izborov v prvem krogu in pa, katere ekipe so izbrale največ podajalcev, ki so jim uspele vrhunske kariere.
 Zanima pa me tudi kakšna je razporeditev NFL ekip med zveznimi državami ZDA.
+
+![](http://oregonsportsnews.com/wp-content/uploads/2017/08/NFL.jpg)
 
 ***
 
@@ -49,8 +49,6 @@ Uvozil sem podatke o podajalcih v v ligi NFL. Nekaj, predvsem statističnih, pod
 kable(head(draft.ekipe))
 ```
   
-  
-
 2. V razpredelnici **podaje.td** so prikazni podatki o uspešnih podajah, številu vseh podaj, podajah, ki so vodile do toucdowna, prestreženih podajah in številu toucdownov, ki jih je podajalec dosegel s tekom. 
   - `Ime` - spremenljivka: ime in priimek podajalca (besedilo),
   - `tip` - spremenljivka: navede vrsto podaje oziroma teka (faktor),
@@ -119,3 +117,34 @@ Na zemljevidu je prikazana razporeditev NFl ekip po zveznih državah ZDA. Združ
 ```{r zemljevid, echo=FALSE, message=FALSE, fig.align='center', fig.width=11, fig.height=7}
 zemljevid.drzave
 ```
+
+```{r analiza, echo=FALSE, message=FALSE, warning=FALSE}
+source("analiza/analiza.r", encoding = "UTF-8")
+```
+
+### Povezava med izborom ekip in številom osvojenih naslovov
+Pri napredni nalizi sem si najprej ogledal povezavo med številom osvojenih naslovov ekipe ter številom igralcev, ki so jih ekipe izbrale v prvem krogu nabora.
+
+Na spodnjem grafu lahko opazimo, da izbira podajalca v prvem krogu nabora še ni zagotovilo za uspeh ekipe, torej osvojitev naslova.Ta prikazuje število osvojenih naslovov, pri čemer je barva za ekipo določena glede na skupino, v katero spada po številu izbranih podajalcev v prvem krogu. Vidimo lahko, da so New England Patriot in San francisco 49ers osvojili največ naslovov, vendar pa so v skupini ekip, ki so izbrale najmanj podajalcev (izbrali so 2) v prvem krogu. Na drugi strani pa imamo na primer ekipo Cleveland Browns, ki je v skupini ekip, ki so izbrale največ podajalcev v prvem krogu, vendar pa še ni osvojila naslova. Razlogov za to je seveda več. Eden izmed njih je, da je za uspeh ekipe potrebno veliko več kot pa samo odličen podajalec. Poleg tega seveda vsem podajalcem, ki so bili izbrani v prvem krogu niso uspele vrhunske kariere. Upoštevati pa je potrebno še faktor menjav, saj lahko ekipa podajalca tradea v drugo ekipo nato pa mu tam uspe vrhunska kariera. Dejstvo pa je, da je lahko že en vrhunski podajalec dovolj za veliko število osvojenih naslovov. Tako so New England Patriotsi Toma Bradyja izbrali šele v šestem krogu, prinesel pa jim je kar 5 naslovov. 
+
+```{r povezava, echo=FALSE, message=FALSE, fig.align='center', warning=FALSE, fig.width=8, fig.height=7}
+graf.povezava1
+```
+
+### Statistika Drewa Breesa v zaključku kariere
+![](http://media.nola.com/saints_impact/photo/drew-brees-saints-vs-seahawks-2016-bc6da477c6824a9b.jpg)
+Poleg zgornje analize pa sem poskusil napovedati še nekaj statistike za zadnja leta kariere enega najboljših podajalcev vseh časov Drewa Breesa, igralca New Orleans Saintsov.
+
+Poskusil sem napovedati uspešnost podaj (v odstotkih), število jardov pridobljenih s podajami in število podaj za touchdowne na sezono. Vse napovedi temeljijo na njegovih  statističnih podatkih iz preteklih sezon. 
+Spodnji graf prikazuje število Breesovih podaj za touchdowne v njegovi karieri(2001 - 2017) in pa še napoved za naslednja štiri leta.
+
+```{r napoved.td, echo=FALSE, message=FALSE, fig.align='center', warning=FALSE, fig.width=8, fig.height=6}
+graf.td.napoved
+```
+
+Do napovedi sem prišel tako, da sem podatke aproksimiral s parabolo, ki se najbolj prilega podatkom, ter tako pridobil podatke za prihodnost. Kot je razvidno iz zgornjega grafa in spodnje tabele, je Brees očitno že doživel vrhunec kariere, saj bi naj v prihodnjih sezonah dosegal slabše rezultate v vseh treh kategorijah, kar pa je tudi pričakovano, saj je star že 39 let in se bo vse težje kosal z mlajšimi nasprotniki.
+
+```{r napoved, echo=FALSE, message=FALSE, fig.align='center', warning=FALSE}
+kable(napoved)
+```
+

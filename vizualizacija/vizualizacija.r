@@ -87,6 +87,10 @@ st.1krog <- aggregate(ekipe$Krog, by=list(ekipe$Ekipa), FUN=sum)
 colnames(st.1krog) <- c("ekipa", "stevilo")
 st.1krog["14", "ekipa"] <- "Tennessee Titans"
 st.1krog["3", "ekipa"] <- "Indianapolis Colts"
+st.1krog["19", "ekipa"] <- "Oakland Raiders"
+st.1krog["33", "ekipa"] <- "Los Angeles Rams"
+st.1krog["32", "ekipa"] <- "Arizona Cardinals"
+
 st.1krog <- aggregate(st.1krog$stevilo, by=list(st.1krog$ekipa), FUN=sum)
 colnames(st.1krog) <- c("ekipa", "stevilo")
 
