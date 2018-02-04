@@ -135,3 +135,41 @@ zemljevid.drzave <- ggplot() +
   #geom_text(data = inner_join(zemljevid, drzave %>% filter(Stevilo > 0), by = c("NAME" = "Drzava")) %>% group_by(NAME) %>%
    #        summarise(avg_long = mean(long), avg_lat = mean(lat)),
     #       aes(x = avg_long, y = avg_lat, label = NAME), color = "red")
+
+
+### Za shiny
+
+stat.tekma <- data.frame(statistika)
+stat.tekma$St.tekem[stat.tekma$St.tekem < 20] <- NA # Izločimo podajalce s premalo tekmami.
+stat.tekma <- na.omit(stat.tekma)
+stat.tekma["Uspesne.p"] <- stat.tekma$Uspesne.p / stat.tekma$St.tekem
+stat.tekma["Podaje"] <- stat.tekma$Podaje / stat.tekma$St.tekem
+stat.tekma["Jardi.podaje"] <- stat.tekma$Jardi.podaje / stat.tekma$St.tekem
+stat.tekma["Podaje.TD"] <- stat.tekma$Podaje.TD / stat.tekma$St.tekem
+stat.tekma["Prestrezene.p"] <- stat.tekma$Prestrezene.p / stat.tekma$St.tekem
+stat.tekma["St.tekov"] <- stat.tekma$St.tekov / stat.tekma$St.tekem
+stat.tekma["Jardi.tek"] <- stat.tekma$Jardi.tek / stat.tekma$St.tekem
+stat.tekma["TD.tek"] <- stat.tekma$TD.tek / stat.tekma$St.tekem
+
+prvi <- aggregate(stat.tekma$Uspesne.p, by=list(stat.tekma$Krog), FUN=mean, na.rm = TRUE)
+colnames(prvi) <- c("Krog","Uspesne.podaje")
+drugi <- aggregate(stat.tekma$Podaje, by=list(stat.tekma$Krog), FUN=mean, na.rm = TRUE)
+colnames(drugi) <- c("Krog","Podaje")
+tretji <- aggregate(stat.tekma$Jardi.podaje, by=list(stat.tekma$Krog), FUN=mean, na.rm = TRUE)
+colnames(tretji) <- c("Krog","Jardi.podaje")
+cetrti <- aggregate(stat.tekma$Podaje.TD, by=list(stat.tekma$Krog), FUN=mean, na.rm = TRUE)
+colnames(cetrti) <- c("Krog","Podaje.TD")
+peti <- aggregate(stat.tekma$Prestrezene.p, by=list(stat.tekma$Krog), FUN=mean, na.rm = TRUE)
+colnames(peti) <- c("Krog","Prestrezene.podaje")
+sesti <- aggregate(stat.tekma$St.tekov, by=list(stat.tekma$Krog), FUN=mean, na.rm = TRUE)
+colnames(sesti) <- c("Krog","St.tekov")
+sedmi <- aggregate(stat.tekma$Jardi.tek, by=list(stat.tekma$Krog), FUN=mean, na.rm = TRUE)
+colnames(sedmi) <- c("Krog","Jardi.tek")
+osmi <- aggregate(stat.tekma$TD.tek, by=list(stat.tekma$Krog), FUN=mean, na.rm = TRUE)
+colnames(osmi) <- c("Krog","TD.tek")
+
+povprecja <- Reduce(function(x, y) merge(x, y, all=TRUE), 
+                    list(prvi, drugi, tretji,cetrti, peti, sesti, sedmi, osmi))
+povprecja[5] <- NULL
+colnames(povprecja)[5] <- "Podaje.TD"
+
