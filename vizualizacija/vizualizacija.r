@@ -2,11 +2,9 @@
 
 ### Skupno število podaj na tekmo vseh podajalcev, ki so bili na naboru izbrani v določenem letu.
 
-x <- c("Podaje", "Uspesne.p", "Podaje.TD", "Prestrezene.p", "TD.tek")
-a <- inner_join(draft.ekipe[,c(1,2)], podaje.td, by = "Ime") %>% mutate(tip = factor(tip, levels = x)) %>%
-  arrange(tip) %>% distinct(Ime,.keep_all = TRUE)
+a <- podaje.td[podaje.td$tip == "Podaje",]
+a <- inner_join(draft.ekipe[,c(1,2)], a, by = "Ime")
 a <- inner_join(a, tekme, by = "Ime") 
-
 a <- add_column(a, "podaje/tekma" = a$stevilo / a$St.tekem)
 b <- aggregate(a$`podaje/tekma`, by=list(a$Leto), FUN=sum)
 colnames(b) <- c("leto","podaje/tekma")
