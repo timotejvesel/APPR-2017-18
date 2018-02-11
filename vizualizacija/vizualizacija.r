@@ -13,7 +13,7 @@ colnames(b) <- c("leto","podaje/tekma")
 
 g1 <- ggplot(b, aes(x=b$leto, y = b$`podaje/tekma`)) + geom_col(fill = "#56B4E9") + 
  labs(title="Število podaj na tekmo", x = "Leto", y = "podaje / tekma") + 
- scale_x_continuous(breaks = pretty(b$leto, n = 10))
+ scale_x_continuous(breaks = seq(1980,2015,5))
 
 # Vidimo lahko, da so v povprečju podajalci, ki so bili na naboru izbrani v drugi polovici (po letu 1997) 
 # vrgli več podaj na tekmo, kot pa podajalci, ki so bili izbrani pred letom 1997. Torej lahko sklepamo,
@@ -170,6 +170,4 @@ colnames(osmi) <- c("Krog","TD.tek")
 
 povprecja <- Reduce(function(x, y) merge(x, y, all=TRUE), 
                     list(prvi, drugi, tretji,cetrti, peti, sesti, sedmi, osmi))
-povprecja[5] <- NULL
-colnames(povprecja)[5] <- "Podaje.TD"
 
