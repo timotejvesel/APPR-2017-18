@@ -78,7 +78,6 @@ g5 <- ggplot(n, aes(x = n$krog, y = n$povprecje)) + geom_col(fill = "bisque1", c
 
 ekipe <- draft.ekipe[, c("Ime", "Krog", "Izbor", "Ekipa")]
 ekipe$Krog[ekipe$Krog > 1] <- NA
-ekipe[ekipe==0] <- NA
 ekipe <- na.omit(ekipe)
 
 st.1krog <- aggregate(ekipe$Krog, by=list(ekipe$Ekipa), FUN=sum)
