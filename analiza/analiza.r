@@ -38,7 +38,7 @@ colnames(brees) <- c("leto", "usp.podaj", "jardi", "touchdown")
 
 pomozna.napoved <- lm(usp.podaj ~ leto + I(leto^2), data = brees)
 leta <- data.frame(leto = seq(2018,2021))
-napoved <- leta %>% mutate(uspesnost.podaj = round(predict(pomozna.napoved, .)))
+napoved <- leta %>% mutate(usp.podaj = round(predict(pomozna.napoved, .)))
 
 graf.usp <- ggplot(brees,(aes(x = brees$leto, y = brees$usp.podaj))) + geom_point() +
   geom_smooth(method = 'lm',  formula = y ~ x + I(x^2))
@@ -59,9 +59,15 @@ graf.td <- ggplot(brees,(aes(x = brees$leto, y = brees$touchdown))) + geom_point
 
 
 tabela.graf <- bind_rows(brees[c(1,4)], napoved[c(1,4)])
+tabela.graf2 <- bind_rows(brees[c(1,2)], napoved[c(1,2)])
 
 graf.td.napoved <- ggplot(tabela.graf, aes(x = leto, y = touchdown)) + 
   geom_point() + scale_x_continuous(name = "Leto", breaks = seq(2001,2021,1)) + ylab("Podaje za touchdown") +
   ggtitle("Število podaj za touchdown na leto") +
   geom_smooth(method = 'lm', formula = y ~ x + I(x^2), color = "green")
+
+graf.usp.napoved <- ggplot(tabela.graf2, aes(x = leto, y = usp.podaj)) + 
+  geom_point() + scale_x_continuous(name = "Leto", breaks = seq(2001,2021,1)) + ylab("Podaje za touchdown") +
+  ggtitle("Število podaj za touchdown na leto") +
+  geom_smooth(method = 'lm', formula = y ~ x + I(x^2), color = "red")
   

@@ -22,13 +22,15 @@ g1 <- ggplot(b, aes(x=b$leto, y = b$`podaje/tekma`)) + geom_col(fill = "#56B4E9"
 
 k <- statistika[,c("Izbor", "Krog", "Podaje", "Uspesne.p")]
 k["uspesnost.p"] <- (k$Uspesne.p / k$Podaje) * 100
-k$Podaje[k$Podaje < 100] <- NA # Izločimo podajalce s premalo podajami.
-k[k==0] <- NA
+k$uspesnost.p[is.na(k$uspesnost.p)] <- 0 # Tistim, ki nikoli niso igrali damo vrednost 0 (namesto NA)
+k$Podaje[is.na(k$Podaje)] <- 0
+k$Uspesne.p[is.na(k$Uspesne.p)] <- 0
+#k$uspesnost.p[k$uspesnost.p > 67] <- NA 
 k <- na.omit(k)
 
 g2 <- ggplot(k, aes(x = k$Izbor, y = k$uspesnost.p)) + geom_point(aes(colour = factor(k$Krog))) +
   scale_x_continuous(name = "Izbor", breaks = seq(0,300,50)) + 
-  scale_y_continuous(name = "Uspešnost podaj (%)", breaks = seq(0,100,5), limits = c(43, 68)) + 
+  scale_y_continuous(name = "Uspešnost podaj (%)", breaks = seq(0,100,5), limits = c(0, 68)) + 
   labs(title = "Korelacija med izborom in uspešnostjo podaj", colour = "Krog") 
 
 p <- aggregate(k$uspesnost.p, by=list(k$Krog), FUN=mean, na.rm = TRUE)
@@ -49,16 +51,16 @@ g3 <- ggplot(p, aes(x = p$krog, y = p$povprecje)) + geom_col(fill = "thistle2", 
 
 ### Povprečno število touchdownov na tekmo
 
-m <- statistika[, c("Izbor", "Krog", "Jardi.podaje", "Podaje.TD", "Ime")]
-m <- inner_join(m, tekme, by = "Ime" )
+m <- statistika[, c("Izbor", "Krog", "Podaje.TD", "Ime", "St.tekem")]
+#m <- inner_join(m, tekme, by = "Ime" )
 m["td.tekma"] <- (m$Podaje.TD/ m$St.tekem)
-m$St.tekem[m$St.tekem < 10] <- NA # Izločimo podajalce s premalo tekmami.
-m[m==0] <- NA
-m <- na.omit(m)
+m$St.tekem[is.na(m$St.tekem)] <- 0
+m$Podaje.TD[is.na(m$Podaje.TD)] <- 0
+m$td.tekma[is.na(m$td.tekma)] <- 0
 
 g4 <- ggplot(m, aes(x = m$Izbor, y = m$td.tekma)) + geom_point(aes(colour = factor(m$Krog))) +
   scale_x_continuous(name = "Izbor", breaks = seq(0,300,50)) + 
-  scale_y_continuous(name = "touchdown/tekma", breaks = seq(0,2,0.25)) + 
+  scale_y_continuous(name = "touchdown/tekma", breaks = seq(0,2.3,0.2)) + 
   labs(title = "Povprečno število touchdownov na tekmo", colour = "Krog") 
 
 n <- aggregate(m$td.tekma, by=list(m$Krog), FUN=mean, na.rm = TRUE)
@@ -73,6 +75,27 @@ g5 <- ggplot(n, aes(x = n$krog, y = n$povprecje)) + geom_col(fill = "bisque1", c
 # vendar pa je vsake toliko časa kakšen podajalec izbran precej nižje, čeprav se kasneje izkaže,
 # da mu je uspela boljša kariera kot pa ostalim.
 
+
+### povprečno število pridobljenih jardov na tekmo
+z <- statistika[, c("Izbor", "Krog", "Jardi.podaje", "Ime", "St.tekem")]
+#z <- inner_join(z, tekme, by = "Ime" )
+z["jardi.tekma"] <- (z$Jardi.podaje/ z$St.tekem)
+z$St.tekem[is.na(z$St.tekem)] <- 0
+z$Jardi.podaje[is.na(z$Jardi.podaje)] <- 0
+z$jardi.tekma[is.na(z$jardi.tekma)] <- 0
+
+g10 <- ggplot(z, aes(x = z$Izbor, y = z$jardi.tekma)) + geom_point(aes(colour = factor(z$Krog))) +
+  scale_x_continuous(name = "Izbor", breaks = seq(0,300,50)) + 
+  scale_y_continuous(name = "touchdown/tekma", breaks = seq(0,285,50)) + 
+  labs(title = "Povprečno število pridobljenih jardov (s podajami) na tekmo", colour = "Krog") 
+
+t <- aggregate(z$jardi.tekma, by=list(z$Krog), FUN=mean, na.rm = TRUE)
+colnames(t) <- c("krog","povprecje")
+
+g11 <- ggplot(t, aes(x = t$krog, y = t$povprecje)) + geom_col(fill = "bisque1", color = "black") + 
+  scale_x_continuous(name = "Krog", breaks = seq(0,285,50)) + 
+  scale_y_continuous(name = "Povprečje td/tekma") + 
+  labs(title = "Povprečje jardi(po zraku)/tekma glede na krog izbora") 
 
 ### Ekipe, ki so izbrale podajalce v prvem krogu in ekipe, ki so izbrale "najboljše" podajalce.
 
@@ -148,6 +171,15 @@ stat.tekma["St.tekov"] <- stat.tekma$St.tekov / stat.tekma$St.tekem
 stat.tekma["Jardi.tek"] <- stat.tekma$Jardi.tek / stat.tekma$St.tekem
 stat.tekma["TD.tek"] <- stat.tekma$TD.tek / stat.tekma$St.tekem
 
+# "Boljša" rešitev za 
+#test <- data.frame(statistika)
+#test$St.tekem[test$St.tekem < 20] <- NA # Izločimo podajalce s premalo tekmami.
+#test <- na.omit(test)
+#test <- test[,c(-5, -6)]
+#nova <- lapply(6:13, . %>% {mutate(test[.] <- test[.] / test$St.tekem)})
+#nova["ime"] <- test$Ime
+
+
 prvi <- aggregate(stat.tekma$Uspesne.p, by=list(stat.tekma$Krog), FUN=mean, na.rm = TRUE)
 colnames(prvi) <- c("Krog","Uspesne.podaje")
 drugi <- aggregate(stat.tekma$Podaje, by=list(stat.tekma$Krog), FUN=mean, na.rm = TRUE)
@@ -167,4 +199,156 @@ colnames(osmi) <- c("Krog","TD.tek")
 
 povprecja <- Reduce(function(x, y) merge(x, y, all=TRUE), 
                     list(prvi, drugi, tretji,cetrti, peti, sesti, sedmi, osmi))
+
+##### Primerjava v prvem krogu (6. izbor pomeni 6-10, 11 pomeni 11-15 itd...)
+## Uspešnost podaj
+
+kk <- prvi.krog[,c("Izbor", "Krog", "Podaje", "Uspesne.p")]
+kk["uspesnost.p"] <- (kk$Uspesne.p / kk$Podaje) * 100
+#kk$Podaje[k$Podaje < 100] <- NA # Izločimo podajalce s premalo podajami.
+#kk[kk==0] <- NA
+#kk <- na.omit(kk)
+
+g7 <- ggplot(kk, aes(x = kk$Izbor, y = kk$uspesnost.p)) + geom_point(aes(colour = factor(kk$Izbor))) +
+  scale_x_continuous(name = "Izbor", breaks = seq(0,35,1)) + 
+  scale_y_continuous(name = "Uspešnost podaj (%)", breaks = seq(0,100,5), limits = c(43, 68)) + 
+  labs(title = "Korelacija med izborom in uspešnostjo podaj", colour = "Izbor") 
+
+pp <- aggregate(kk$uspesnost.p, by=list(kk$Izbor), FUN=mean, na.rm = TRUE)
+colnames(pp) <- c("izbor","povprecje")
+
+g8 <- ggplot(pp, aes(x = pp$izbor, y = pp$povprecje)) + geom_col(fill = "thistle2", color = "black") + 
+  scale_x_continuous(name = "Izbor", breaks = seq(1,50,1)) + 
+  scale_y_continuous(name = "Povprečje uspešnih podaj", breaks = seq(0,60,5)) + 
+  labs(title = "Uspešnost podaj glede na krog izbora (%)") 
+
+## Povprečno TD per game
+
+mm <- prvi.krog[, c("Izbor", "Krog", "Jardi.podaje", "Podaje.TD", "Ime", "St.tekem")]
+#mm <- inner_join(mm, tekme, by = "Ime" )
+mm["td.tekma"] <- (mm$Podaje.TD/ mm$St.tekem)
+#mm$St.tekem[mm$St.tekem < 10] <- NA # Izločimo podajalce s premalo tekmami.
+#mm[mm==0] <- NA
+#mm <- na.omit(mm)
+
+g16 <- ggplot(mm, aes(x = mm$Izbor, y = mm$td.tekma)) + geom_point(aes(colour = factor(mm$Izbor))) +
+  scale_x_continuous(name = "Izbor", breaks = seq(0,35,1)) + 
+  scale_y_continuous(name = "Uspešnost podaj (%)", breaks = seq(0,2.1,0.2), limits = c(0, 2.1)) + 
+  labs(title = "Korelacija med izborom in uspešnostjo podaj", colour = "Izbor") 
+
+
+nn <- aggregate(mm$td.tekma, by=list(mm$Izbor), FUN=mean, na.rm = TRUE)
+colnames(nn) <- c("izbor","povprecje")
+
+g9 <- ggplot(nn, aes(x = nn$izbor, y = nn$povprecje)) + geom_col(fill = "bisque1", color = "black") + 
+  scale_x_continuous(name = "Izbor", breaks = seq(1,32,1)) + 
+  scale_y_continuous(name = "Povprečje td/tekma") + 
+  labs(title = "Povprečje touchdownov/tekma glede izbor v prvem krogu")
+
+### Jardi/game
+zz <- prvi.krog[, c("Izbor", "Krog", "Jardi.podaje", "Podaje.TD", "Ime", "St.tekem")]
+#zz <- inner_join(zz, tekme, by = "Ime" )
+zz["jardi.tekma"] <- (zz$Jardi.podaje/ zz$St.tekem)
+#zz$St.tekem[z$St.tekem < 10] <- NA # Izločimo podajalce s premalo tekmami.
+#zz[z==0] <- NA
+#zz <-na.omit(zz)
+
+g17 <- ggplot(zz, aes(x = zz$Izbor, y = zz$jardi.tekma)) + geom_point(aes(colour = factor(mm$Izbor))) +
+  scale_x_continuous(name = "Izbor", breaks = seq(0,35,1)) + 
+  scale_y_continuous(name = "Uspešnost podaj (%)", breaks = seq(0,285,50), limits = c(0, 290)) + 
+  labs(title = "Korelacija med  v prvem krogu in povprečnim številom jardov na tekmo", colour = "Izbor") 
+
+tt <- aggregate(zz$jardi.tekma, by=list(zz$Izbor), FUN=mean, na.rm = TRUE)
+colnames(tt) <- c("izbor","povprecje")
+
+g12 <- ggplot(tt, aes(x = tt$izbor, y = tt$povprecje)) + geom_col(fill = "bisque1", color = "black") + 
+  scale_x_continuous(name = "Izbor", breaks = seq(0,250,25)) + 
+  scale_y_continuous(name = "Povprečje jardi/tekma") + 
+  labs(title = "Povprečje tjardov po zraku/tekma glede na izbor v prvem krogu") 
+
+
+#### NFL rate
+r <- statistika[,c("Izbor", "Krog", "rate")]
+r$rate[is.na(r$rate)] <- 0 # Na 0 nastavimo tiste, ki imajo NA, torej niso nikoli igrali (so preslabi)
+r$rate[r$rate > 115] <- NA # Izločimo podajalce s prevelikim rate (nereprezntatvnim)
+r$rate[r$rate < 0] <- 0
+r <- na.omit(r)
+
+f <- statistika[,c("Izbor", "Krog", "rate")]
+f$rate[f$rate > 115] <- NA # Izločimo podajalce s prevelikim rate (nereprezntatvnim)
+f$rate[f$rate < 0] <- 0
+f <- na.omit(f)
+
+g13 <- ggplot(r, aes(x = r$Izbor, y = r$rate)) + geom_point(aes(colour = factor(r$Krog))) +
+  scale_x_continuous(name = "Izbor", breaks = seq(0,300,50)) + 
+  scale_y_continuous(name = "NFL rate", breaks = seq(0,160,5), limits = c(0, 115)) + 
+  labs(title = "Korelacija med izborom in NFl rate", colour = "Krog") 
+
+q <- aggregate(r$rate, by=list(r$Krog), FUN=mean, na.rm = TRUE)
+colnames(q) <- c("krog","rate.povprecje")
+
+g14 <- ggplot(q, aes(x = q$krog, y = q$rate)) + geom_col(fill = "thistle2", color = "black") + 
+  scale_x_continuous(name = "Krog", breaks = seq(0,12,1)) + 
+  scale_y_continuous(name = "Povprečje NFL rate", breaks = seq(0,115,5)) + 
+  labs(title = "Povprečje NFL passing rate glede na krog izbora") 
+
+# prvi krog
+rr <- prvi.krog[,c("Izbor", "Krog", "rate")]
+rr$rate[rr$rate > 115] <- NA # Izločimo podajalce s prevelikim rate (nereprezntatvnim)
+rr <- na.omit(rr)
+
+qq <- aggregate(rr$rate, by=list(rr$Izbor), FUN=mean, na.rm = TRUE)
+colnames(qq) <- c("izbor","rate.povprecje")
+
+g15 <- ggplot(qq, aes(x = qq$izbor, y = qq$rate)) + geom_col(fill = "thistle2", color = "black") + 
+  scale_x_continuous(name = "Izbor", breaks = seq(1,26,1)) + 
+  scale_y_continuous(name = "Povprečje NFL rate", breaks = seq(0,115,5)) + 
+  labs(title = "Povprečje NFL passing rate  glede na izbor v prvem krogu") 
+
+
+##### Vizualizacija topQB
+
+g16 <- ggplot(topQB, aes(x = topQB$QB, y = topQB$jardi.zrak.tekma)) + geom_col(fill = "thistle2", color = "black") + 
+  scale_x_discrete(name = "QB") + 
+  scale_y_continuous(name = "Popvrečno stevilo jardov po zraku na tekmo", breaks = seq(0,250,50)) + 
+  labs(title = "Povpreco stevilo jaedov po zraku na tekmo glede na vrsto QB, ki je igral") 
+
+g17 <- ggplot(topQB, aes(x = topQB$QB, y = topQB$jardi.tek.tekma)) + geom_col(fill = "bisque1", color = "black") + 
+  scale_x_discrete(name = "QB") + 
+  scale_y_continuous(name = "Average rushing jards per game", breaks = seq(0,150,25)) + 
+  labs(title = "Average rushing jards per game") 
+
+g18 <- ggplot(topQB, aes(x = topQB$QB, y = topQB$podaja.TD.tekma)) + geom_col(fill = "orchid2", color = "black") + 
+  scale_x_discrete(name = "QB") + 
+  scale_y_continuous(name = "Average number of passes for TD per game", breaks = seq(0,2.5,0.25)) + 
+  labs(title = "Average number of passes for TD per game") 
+
+g19 <- ggplot(topQB, aes(x = topQB$QB, y = topQB$interception.tekma)) + geom_col(fill = "olivedrab2", color = "black") + 
+  scale_x_discrete(name = "QB") + 
+  scale_y_continuous(name = "Average number of interceptions per game", breaks = seq(0,1,0.1)) + 
+  labs(title = "Average number of interceptions per game") 
+
+g20 <- ggplot(topQB, aes(x = topQB$QB, y = topQB$pass.percentage)) + geom_col(fill = "skyblue1", color = "black") + 
+  scale_x_discrete(name = "QB") + 
+  scale_y_continuous(name = "Percentage of successful passes", breaks = seq(0,80,10)) + 
+  labs(title = "Percentage of successful passes") 
+
+g21 <- ggplot(topQB, aes(x = topQB$QB, y = topQB$zmage.porazi)) + geom_col(fill = "tomato1", color = "black") + 
+  scale_x_discrete(name = "QB") + 
+  scale_y_continuous(name = "Wins and loses ratio", breaks = seq(0,5,0.25)) + 
+  labs(title = "Wins and loses ratio") 
+
+#### plače in uspesnost 2017
+
+place <- inner_join(tabela1[,c(2,20)], tabela2[,c(1,3)], by = "Player")
+
+g22 <- ggplot(place, aes(x = place$`Salary Cap Value`, y = place$Rate)) + geom_point(colour = "black") +
+  scale_x_continuous(name = "Salary Cap Value", breaks = seq(280000,25000000,10000000)) + 
+  scale_y_continuous(name = "Passer Rate", breaks = seq(54,130,10)) + 
+  labs(title = "Povprečno število pridobljenih jardov (s podajami) na tekmo")
+
+g23 <- g22 + geom_smooth(method = "lm")
+
+##### interceptions per game
+
 

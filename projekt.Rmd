@@ -108,7 +108,7 @@ g5
 
 Iz spodnjega grafa je še lepše razvidno kako popvprečno število podaj za touchdown na tekmo pada glede na krog v katerem je bil podajalec izbran. Seveda so v vseh krogih izbrani tudi podajalci, ki imajo precej neuspešne kariere. Vendar pa lahko opazimo tudi, da je vsake toliko časa kakšen podajalec izbran precej nižje kot pa v prvem krogu, ampak mu je vseeno usepla boljša kariera, kot večini ostalih podajalcev. Najboljši primer tega je Tom Brady, ki je bil izbran šele v šestem krogu, ima pa četrto najboljše povprečje števila touchdownov na tekmo in velja za enega najboljših podajalcev vseh časov v ligi NFL (svojo ekipo New England Patriots je letos spet popeljal na Super Bowl).
 
-```{r četrti, echo=FALSE, message=FALSE, fig.align='center'}
+```{r cetrti, echo=FALSE, message=FALSE, fig.align='center'}
 g4
 ```
 
